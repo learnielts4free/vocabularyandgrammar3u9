@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Tương Tác - Ms Lê Hằng English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8854C0;
+            --secondary-color: #FDCB6E;
+            --accent-color: #00C9A7;
+            --correct-color: #00D26A;
+            --wrong-color: #FF4757;
+            --text-dark: #2D3436;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', 'Nunito', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            position: relative;
+            padding: 20px 10px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.18;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M12 12l2 2-2 2-2-2zm20 8c2 0 3-1 3-3s-1-3-3-3-3 1-3 3 1 3 3 3zm15 5l2 3 3 2-3 2-2 3-2-3-3-2 3-2zm-6 20c1.5 0 2.5-1 2.5-2.5S32.5 30 31 30s-2.5 1-2.5 2.5 1 2.5 2.5 2.5zM10 45l2 2-2 2-2-2z'/%3E%3Ccircle cx='50' cy='10' r='2'/%3E%3Ccircle cx='10' cy='50' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            animation: floatingPattern 25s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingPattern {
+            from { background-position: 0 0; }
+            to { background-position: 600px 600px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .alert-box {
+            background: #FFEAA7;
+            border: 3px solid #FDCB6E;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 0 #E17055;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .alert-title {
+            color: #D63031;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 900;
+        }
+
+        .section-title {
+            background: #FF7675;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 15px;
+            margin: 25px 0 12px 0;
+            display: inline-block;
+            font-weight: 900;
+            box-shadow: 0 4px 0 #D63031;
+            font-size: 1.1rem;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media(min-width: 576px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 15px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 0 #E2E8F0;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #CBD5E1;
+            background-color: #F8FAFC;
+        }
+
+        .option-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #CBD5E1;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-color) !important;
+            color: white !important;
+            border-color: #00B359 !important;
+            box-shadow: 0 4px 0 #00803F !important;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-color) !important;
+            color: white !important;
+            border-color: #E11D48 !important;
+            box-shadow: 0 4px 0 #9F1239 !important;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 15px;
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 0 15px 15px 0;
+            padding: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .explanation-box.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .exp-section {
+            margin-bottom: 8px;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #1E293B;
+            border-bottom: 1px dashed #CBD5E1;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+
+        .exp-highlight {
+            color: #2563EB;
+            font-weight: 700;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-submit {
+            background: #FF7675;
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #D63031;
+            transition: all 0.1s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #D63031;
+        }
+
+        .btn-submit:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #D63031;
+        }
+
+        .result-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .result-comment {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-close-result {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #00A387;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h2>Giáo viên tạo: Ms Lê Hằng English</h2>
+        </header>
+
+        <div class="alert-box">
+            <span class="alert-title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</span>
+            Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+            Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+            <span style="color: #00C9A7; display:block; margin-top:5px;">* Kéo tới đâu, làm tới đó! *</span>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Dữ liệu câu hỏi được tự động tải lên tại đây -->
+        </div>
+
+        <div class="submit-container">
+            <button type="button" class="btn-submit" onclick="gradeEntireQuiz()">NỘP BÀI</button>
+        </div>
+    </div>
+
+    <div class="result-overlay" id="result-modal">
+        <div class="result-content">
+            <div class="result-score" id="score-text">0/0</div>
+            <div class="result-comment" id="comment-text"></div>
+            <button class="btn-close-result" onclick="closeResultModal()">Xem lại bài học</button>
+        </div>
+    </div>
+
+    <script>
+        // --- HỆ THỐNG ÂM THANH TỰ ĐỘNG ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+            }
+        }
+
+        // --- DỮ LIỆU TOÀN BỘ 69 CÂU HỎI TRẮC NGHIỆM ĐỀ BÀI (100% TOÀN VẸN) ---
+        const quizData = [
+            { id: 1, question: "We __________ English classes with a foreign teacher tomorrow afternoon.", options: [{text:"A. had",isCorrect:false},{text:"B. have",isCorrect:true},{text:"C. has",isCorrect:false},{text:"D. having",isCorrect:false}], explanation: { translation: "Chúng tôi có các lớp học tiếng Anh với giáo viên nước ngoài vào chiều mai.", options: "A. had (v2): đã có; B. have (v): có (đi với chủ ngữ số nhiều); C. has (v): có (đi với chủ ngữ số ít); D. having (v-ing): đang có.", reason: "Dấu hiệu 'tomorrow afternoon' (chiều mai) chỉ một lịch trình cố định tương lai, ta có thể dùng thì Hiện tại đơn diễn tả thời khóa biểu lịch trình. Chủ ngữ 'We' số nhiều nên chọn động từ nguyên mẫu 'have'.", wrongReason: "had chỉ quá khứ; has dùng cho chủ ngữ số ít; having không thể đứng làm động từ chính khi thiếu động từ tobe." } },
+            { id: 2, question: "There is a vegetable garden in front __________ my house.", options: [{text:"A. at",isCorrect:false},{text:"B. on",isCorrect:false},{text:"C. of",isCorrect:true},{text:"D. with",isCorrect:false}], explanation: { translation: "Có một vườn rau ở phía trước ngôi nhà của tôi.", options: "A. at: tại; B. on: trên; C. of: của; D. with: với.", reason: "Áp dụng cụm giới từ chỉ vị trí cố định: 'in front of' nghĩa là ở phía trước của một cái gì đó.", wrongReason: "Các giới từ at, on, with khi ghép vào không tạo nên cụm từ chỉ vị trí có nghĩa phù hợp với 'in front'." } },
+            { id: 3, question: "She enjoys __________ films on Netflix to learn English.", options: [{text:"A. watch",isCorrect:false},{text:"B. watching",isCorrect:true},{text:"C. to watch",isCorrect:false},{text:"D. watched",isCorrect:false}], explanation: { translation: "Cô ấy thích xem phim trên Netflix để học tiếng Anh.", options: "A. watch (v-nguyên thể); B. watching (v-ing); C. to watch (to-V); D. watched (v-ed).", reason: "Theo quy tắc cấu trúc ngữ pháp động từ, sau động từ chỉ sở thích 'enjoy' bắt buộc phải đi kèm với một động từ dạng đuôi -ing (enjoy + V-ing). Do đó ta chọn 'watching'.", wrongReason: "watch, to watch và watched đều sai cấu trúc bắt buộc sau động từ 'enjoy'." } },
+            { id: 4, question: "__________ stars are there in the sky?", options: [{text:"A. How old",isCorrect:false},{text:"B. How",isCorrect:false},{text:"C. How much",isCorrect:false},{text:"D. How many",isCorrect:true}], explanation: { translation: "Có bao nhiêu ngôi sao ở trên bầu trời?", options: "A. How old: Bao nhiêu tuổi; B. How: Như thế nào; C. How much: Bao nhiêu (dùng cho danh từ không đếm được); D. How many: Bao nhiêu (dùng cho danh từ đếm được số nhiều).", reason: "Từ 'stars' (ngôi sao) là danh từ đếm được số nhiều (có đuôi -s). Để hỏi số lượng của danh từ đếm được số nhiều, ta bắt buộc sử dụng cụm từ hỏi 'How many'.", wrongReason: "How old hỏi tuổi; How hỏi cách thức; How much dùng sai vì chỉ đi kèm danh từ không đếm được." } },
+            { id: 5, question: "My grandmother often goes jogging __________ 6:30 a.m in the morning.", options: [{text:"A. at",isCorrect:true},{text:"B. in",isCorrect:false},{text:"C. on",isCorrect:false},{text:"D. for",isCorrect:false}], explanation: { translation: "Bà của tôi thường đi bộ thể dục vào lúc 6:30 sáng.", options: "A. at: vào lúc; B. in: trong; C. on: trên/vào ngày; D. for: khoảng/cho.", reason: "Quy tắc sử dụng giới từ chỉ thời gian: Giới từ 'at' luôn đứng trước các mốc thời gian, giờ giấc cụ thể chính xác trên đồng hồ (at + giờ cụ thể).", wrongReason: "in dùng trước tháng/năm/buổi lớn; on dùng trước các ngày trong tuần hoặc ngày tháng cụ thể; for dùng trước một khoảng thời gian." } },
+            { id: 6, question: "Staying _______ means maintaining a healthy mix of physical activity, social interactions, and rest.", options: [{text:"A. well-balanced",isCorrect:true},{text:"B. stressed out",isCorrect:false},{text:"C. self-aware",isCorrect:false},{text:"D. self-disciplined",isCorrect:false}], explanation: { translation: "Sống cân bằng nghĩa là duy trì sự kết hợp lành mạnh giữa hoạt động thể chất, tương tác xã hội và nghỉ ngơi.", options: "A. well-balanced (adj): cân bằng, điều độ; B. stressed out (adj): căng thẳng mệt mỏi; C. self-aware (adj): tự nhận thức; D. self-disciplined (adj): có tính kỷ luật tự giác.", reason: "Dựa vào nghĩa của vế giải thích phía sau 'maintaining a healthy mix...' (duy trì sự kết hợp lành mạnh giữa thể chất, xã hội và nghỉ ngơi) -> Đây chính là định nghĩa của lối sống cân bằng, điều độ 'well-balanced'.", wrongReason: "stressed out mang nghĩa tiêu cực; self-aware và self-disciplined chỉ tính cách nội tại, không khớp nghĩa tổng hòa các hoạt động lành mạnh." } },
+            { id: 7, question: "An additional benefit of exercise is improved mood and reduced _______.", options: [{text:"A. due date",isCorrect:false},{text:"B. anxiety",isCorrect:true},{text:"C. task",isCorrect:false},{text:"D. assignment",isCorrect:false}], explanation: { translation: "Một lợi ích bổ sung của việc tập thể dục là cải thiện tâm trạng và giảm bớt sự lo âu.", options: "A. due date (n): hạn chót; B. anxiety (n): sự lo âu, lo lắng; C. task (n): nhiệm vụ; D. assignment (n): bài tập được giao.", reason: "Động từ 'reduced' mang nghĩa là làm giảm bớt một điều gì đó tiêu cực. Trong các phương án, chỉ có 'anxiety' (sự lo âu) là trạng thái tâm lý tiêu cực cần được giảm thiểu nhờ tập thể dục.", wrongReason: "due date, task, assignment thuộc chủ đề học tập/công việc, không đi kèm nghĩa cải thiện tâm trạng sức khỏe khi giảm bớt." } },
+            { id: 8, question: "A _______ can provide guidance on academic and emotional matters.", options: [{text:"A. accomplishment",isCorrect:false},{text:"B. adolescence",isCorrect:false},{text:"C. adulthood",isCorrect:false},{text:"D. counsellor",isCorrect:true}], explanation: { translation: "Một người cố vấn/tư vấn viên có thể đưa ra sự hướng dẫn về các vấn đề học tập và cảm xúc.", options: "A. accomplishment (n): thành tựu; B. adolescence (n): tuổi vị thành niên; C. adulthood (n): tuổi trưởng thành; D. counsellor (n): người tư vấn, cố vấn.", reason: "Dựa vào động từ 'provide guidance' (đưa ra sự hướng dẫn, lời khuyên). Chỉ có danh từ chỉ người 'counsellor' (người cố vấn tâm lý/học đường) mới có năng lực đưa ra các lời khuyên hướng dẫn.", wrongReason: "Các đáp án A, B, C đều là danh từ chỉ sự vật, khái niệm hoặc giai đoạn phát triển, không thể thực hiện hành động cung cấp lời khuyên." } },
+            { id: 9, question: "Prioritize tasks to _______ them efficiently.", options: [{text:"A. raise",isCorrect:false},{text:"B. accomplish",isCorrect:true},{text:"C. minimize",isCorrect:false},{text:"D. delay",isCorrect:false}], explanation: { translation: "Hãy sắp xếp thứ tự ưu tiên các nhiệm vụ để hoàn thành chúng một cách hiệu quả.", options: "A. raise (v): nâng lên, nuôi nấng; B. accomplish (v): hoàn thành, đạt được; C. minimize (v): giảm thiểu; D. delay (v): trì hoãn.", reason: "Mục đích của việc sắp xếp việc cần làm trước (prioritize tasks) là để giải quyết và hoàn thành tốt ('accomplish') các công việc đó một cách có năng suất, hiệu quả.", wrongReason: "raise không đi với nhiệm vụ; minimize nghĩa là giảm nhỏ nhất; delay nghĩa là trì hoãn làm mất đi tính hiệu quả của công việc." } },
+            { id: 10, question: "A ______ approach to eating helps maintain a healthy weight.", options: [{text:"A. self-aware",isCorrect:false},{text:"B. beautiful",isCorrect:false},{text:"C. stressed out",isCorrect:false},{text:"D. self-disciplined",isCorrect:true}], explanation: { translation: "Một phương pháp ăn uống có kỷ luật tự giác giúp duy trì cân nặng khỏe mạnh.", options: "A. self-aware (adj): tự nhận thức; B. beautiful (adj): xinh đẹp; C. stressed out (adj): căng thẳng; D. self-disciplined (adj): có tính kỷ luật, tự giác.", reason: "Việc ăn uống để kiểm soát duy trì cân nặng ổn định đòi hỏi con người phải biết tự kiềm chế, kiểm soát sở thích ăn uống của bản thân, tức là tính kỷ luật tự giác 'self-disciplined'.", wrongReason: "self-aware chỉ nhận biết cảm xúc; beautiful không phù hợp ngữ cảnh phương pháp ăn; stressed out là ăn uống lúc căng thẳng gây hại sức khỏe." } },
+            { id: 11, question: "If I get the job offer today, I _______ accept it and start working on Monday.", options: [{text:"A. should",isCorrect:false},{text:"B. might",isCorrect:true},{text:"C. need",isCorrect:false},{text:"D. must",isCorrect:false}], explanation: { translation: "Nếu tôi nhận được lời mời làm việc hôm nay, tôi có thể sẽ đồng ý và bắt đầu làm việc vào thứ Hai.", options: "A. should: nên; B. might: có lẽ, có thể (chỉ khả năng); C. need: cần; D. must: phải.", reason: "Câu điều kiện loại 1 diễn tả một khả năng có thể xảy ra ở tương lai. Từ 'might' thể hiện một khả năng, dự định không chắc chắn 100% nhưng hoàn toàn có thể xảy ra dựa trên điều kiện đưa ra.", wrongReason: "should mang tính khuyên bảo; need cần có 'to' để đi với động từ nguyên mẫu phía sau; must thể hiện sự bắt buộc quá khiên cưỡng." } },
+            { id: 12, question: "If you want to enhance your well-being, you _______ stay up too late.", options: [{text:"A. needn't",isCorrect:false},{text:"B. may not",isCorrect:false},{text:"C. might not",isCorrect:false},{text:"D. shouldn't",isCorrect:true}], explanation: { translation: "Nếu bạn muốn nâng cao sức khỏe và sự an yên của mình, bạn không nên thức quá muộn.", options: "A. needn't: không cần; B. may not: có thể không; C. might not: có lẽ không; D. shouldn't: không nên.", reason: "Câu này đưa ra một lời khuyên chân thành về sức khỏe dựa trên giả thuyết ban đầu. Trong tiếng Anh, động từ khuyết thiếu dùng để đưa ra lời khuyên tốt nhất là 'shouldn't' (không nên).", wrongReason: "needn't chỉ sự không cần thiết; may not và might not chỉ khả năng phủ định, không mang tính chất đưa ra lời khuyên răn." } },
+            { id: 13, question: "If you don' t charge the battery, your device _______ function properly.", options: [{text:"A. mustn't",isCorrect:false},{text:"B. can't",isCorrect:true},{text:"C. shouldn't",isCorrect:false},{text:"D. needn't",isCorrect:false}], explanation: { translation: "Nếu bạn không sạc pin, thiết bị của bạn không thể hoạt động bình thường được.", options: "A. mustn't: cấm đoán; B. can't: không thể (chỉ khả năng); C. shouldn't: không nên; D. needn't: không cần.", reason: "Đây là câu chỉ mối quan hệ nguyên nhân - kết quả mang tính vật lý, kỹ thuật. Không sạc pin dẫn tới thiết bị mất năng lượng và 'không thể' (can't) vận hành chạy được.", wrongReason: "mustn't là lệnh cấm; shouldn't khuyên bảo; needn't không cần thiết, đều sai lệch logic vận hành tự động của máy móc." } },
+            { id: 14, question: "If you want to travel to Australia, you _______ have a valid passport.", options: [{text:"A. should",isCorrect:false},{text:"B. may",isCorrect:false},{text:"C. can",isCorrect:false},{text:"D. must",isCorrect:true}], explanation: { translation: "Nếu bạn muốn đi du lịch đến Úc, bạn phải có một hộ chiếu còn hiệu lực.", options: "A. should: nên; B. may: có thể; C. can: có thể; D. must: bắt buộc, phải.", reason: "Có hộ chiếu hợp pháp là một quy định pháp luật bắt buộc mang tính luật lệ quốc tế khi nhập cảnh sang quốc gia khác. Vì thế ta bắt buộc phải chọn động từ mang tính tối thượng ép buộc là 'must'.", wrongReason: "should chỉ mang tính khuyên bảo tùy ý; may và can chỉ khả năng cho phép, không thể hiện tính bắt buộc của luật xuất nhập cảnh." } },
+            { id: 15, question: "If they want to graduate, they _______ complete all the required coursework.", options: [{text:"A. must",isCorrect:true},{text:"B. should",isCorrect:false},{text:"C. can",isCorrect:false},{text:"D. might",isCorrect:false}], explanation: { translation: "Nếu họ muốn tốt nghiệp, họ bắt buộc phải hoàn thành tất cả các học phần được yêu cầu.", options: "A. must: phải, bắt buộc; B. should: nên; C. can: có thể; D. might: có lẽ.", reason: "Việc hoàn thành chương trình học học phần là điều kiện bắt buộc tiên quyết do nhà trường quy định để xét tốt nghiệp, không phải việc thích hay không. Do vậy dùng 'must' là chính xác nhất.", wrongReason: "should, can, might thể hiện sự tùy ý hoặc khả năng lỏng lẻo, không phản ánh đúng quy định cứng của quy chế nhà trường." } },
+            { id: 16, question: "To feel energized throughout the day, it’s important to _________ healthy food choices.", options: [{text:"A. give",isCorrect:false},{text:"B. suffer",isCorrect:false},{text:"C. take",isCorrect:false},{text:"D. make",isCorrect:true}], explanation: { translation: "Để cảm thấy tràn đầy năng lượng suốt cả ngày, việc đưa ra các lựa chọn thực phẩm lành mạnh là rất quan trọng.", options: "A. give (v): cho; B. suffer (v): chịu đựng; C. take (v): lấy; D. make (v): làm, tạo ra.", reason: "Đi theo cụm từ kết hợp cố định (Collocation) trong tiếng Anh: 'make choices' nghĩa là đưa ra các sự lựa chọn. Ghép vào bài là 'make healthy food choices'.", wrongReason: "Các động từ give, suffer, take khi đi với danh từ choices không tạo ra cụm từ có nghĩa chuẩn xác theo tập quán bản ngữ." } },
+            { id: 17, question: "Taking breaks from studying and engaging in relaxing activities can help reduce _________ stress.", options: [{text:"A. physical",isCorrect:false},{text:"B. mental",isCorrect:true},{text:"C. additional",isCorrect:false},{text:"D. urgent",isCorrect:false}], explanation: { translation: "Nghỉ ngơi sau giờ học và tham gia vào các hoạt động thư giãn có thể giúp giảm bớt căng thẳng tinh thần.", options: "A. physical (adj): thể chất; B. mental (adj): thuộc tinh thần, trí óc; C. additional (adj): bổ sung; D. urgent (adj): khẩn cấp.", reason: "Áp lực sinh ra từ việc học hành ôn thi liên tục liên quan trực tiếp đến não bộ, trí óc, căng thẳng đầu óc, nên thuật ngữ chính xác đi kèm là 'mental stress' (áp lực/căng thẳng tinh thần).", wrongReason: "physical stress liên quan đến cơ bắp cơ thể lao động; additional và urgent không làm rõ bản chất loại stress đang được đề cập từ việc học." } },
+            { id: 18, question: "Teens enjoy staying up late to watch videos, but this can _________ getting enough sleep.", options: [{text:"A. encourage",isCorrect:false},{text:"B. manage",isCorrect:false},{text:"C. discourage",isCorrect:true},{text:"D. accomplish",isCorrect:false}], explanation: { translation: "Thành thiếu niên thích thức khuya để xem video, nhưng điều này có thể cản trở/làm giảm khả năng ngủ đủ giấc.", options: "A. encourage (v): khuyến khích; B. manage (v): quản lý; C. discourage (v): ngăn cản, làm nản lòng, làm giảm khả năng; D. accomplish (v): đạt được.", reason: "Việc thức khuya xem điện thoại mang tác động tiêu cực, ngăn cản hoặc gây khó khăn cho việc có một giấc ngủ đầy đủ. Từ phù hợp nhất là 'discourage' (ngăn cản, cản trở diễn ra thuận lợi).", wrongReason: "encourage và accomplish mang nghĩa tích cực, ngược logic tác hại; manage không phù hợp ngữ cảnh tác động của thức khuya." } },
+            { id: 19, question: "You should find ways to _________ stress in a healthy way, like exercise or relaxation techniques.", options: [{text:"A. manage",isCorrect:true},{text:"B. punish",isCorrect:false},{text:"C. reduce",isCorrect:false},{text:"D. consult",isCorrect:false}], explanation: { translation: "Bạn nên tìm cách kiểm soát căng thẳng một cách lành mạnh, như tập thể dục hoặc các kỹ thuật thư giãn.", options: "A. manage (v): kiểm soát, quản lý; B. punish (v): trừng phạt; C. reduce (v): giảm bớt; D. consult (v): tham khảo ý kiến.", reason: "Thuật ngữ tâm lý xã hội học tập phổ biến đi liền với stress là 'manage stress' (kiểm soát/quản lý áp lực căng thẳng). Đoạn sau nói về phương pháp xử lý như bài tập kỹ thuật để sống chung hoặc giải tỏa nó điều độ.", wrongReason: "punish lạc đề; reduce (giảm) mặc dù gần nghĩa nhưng khi đi với cụm từ phương pháp toàn diện 'in a healthy way' thì dùng cụm 'manage stress' là chuẩn thuật ngữ chuyên môn nhất; consult đòi hỏi tân ngữ chỉ người cố vấn." } },
+            { id: 20, question: "Don’t _________ spending time with friends and family, even when you’re busy with schoolwork.", options: [{text:"A. accomplish",isCorrect:false},{text:"B. consult",isCorrect:false},{text:"C. delay",isCorrect:true},{text:"D. require",isCorrect:false}], explanation: { translation: "Đừng trì hoãn việc dành thời gian cho bạn bè và gia đình, ngay cả khi bạn đang bận rộn với bài vở ở trường.", options: "A. accomplish (v): hoàn thành; B. consult (v): hỏi ý kiến; C. delay (v): trì hoãn; D. require (v): yêu cầu.", reason: "Cấu trúc ngữ pháp: 'delay + V-ing' nghĩa là trì hoãn làm việc gì đó. Xét về ngữ cảnh khuyên răn học sinh không nên gác lại, hoãn lại mối quan hệ tình cảm thân thiết dù bận rộn, chọn 'delay' là chính xác.", wrongReason: "accomplish không đi với V-ing mang nghĩa này; consult cần tân ngữ người; require mang nghĩa bắt buộc không khớp nghĩa khuyên răn." } },
+            { id: 21, question: "Teens should learn to _______ conflicts appropriately to maintain healthy relationships.", options: [{text:"A. resolve",isCorrect:true},{text:"B. delay",isCorrect:false},{text:"C. concentrate",isCorrect:false},{text:"D. accomplish",isCorrect:false}], explanation: { translation: "Thành thiếu niên nên học cách giải quyết các xung đột một cách thích hợp để duy trì các mối quan hệ lành mạnh.", options: "A. resolve (v): giải quyết; B. delay (v): trì hoãn; C. concentrate (v): tập trung; D. accomplish (v): đạt được.", reason: "Cụm từ kết hợp từ vựng thường gặp: 'resolve conflicts' nghĩa là giải quyết, dàn xếp ổn thỏa các mâu thuẫn, xung đột tranh chấp giữa người với người.", wrongReason: "delay xung đột chỉ là tạm gác lại; concentrate đi với giới từ 'on' nghĩa là tập trung vào; accomplish là hoàn thành thành tựu tốt đẹp, không dùng cho mâu thuẫn." } },
+            { id: 22, question: "Prioritizing sleep is crucial; don't _______ bedtime due to distractions.", options: [{text:"A. concentrate",isCorrect:false},{text:"B. accomplish",isCorrect:false},{text:"C. delay",isCorrect:true},{text:"D. resolve",isCorrect:false}], explanation: { translation: "Ưu tiên giấc ngủ là điều tối quan trọng; đừng trì hoãn giờ đi ngủ vì những thứ gây xao nhãng.", options: "A. concentrate (v): tập trung; B. accomplish (v): hoàn thành; C. delay (v): trì hoãn; D. resolve (v): giải quyết.", reason: "Ngữ cảnh cảnh báo học sinh không được vì mải xem điện thoại hay trò chơi (distractions) mà đi ngủ muộn, tức là 'delay bedtime' (trì hoãn, kéo lùi giờ lên giường ngủ).", wrongReason: "concentrate đi với on; accomplish và resolve không thể kết hợp ngữ nghĩa một cách hợp lý với danh từ 'bedtime'." } },
+            { id: 23, question: "Being _______ helps teens recognize their emotions and cope with stress.", options: [{text:"A. self-disciplined",isCorrect:false},{text:"B. stressed out",isCorrect:false},{text:"C. self-aware",isCorrect:true},{text:"D. well-balanced",isCorrect:false}], explanation: { translation: "Có sự tự nhận thức về bản thân giúp thanh thiếu niên nhận biết được cảm xúc của mình và đối phó với căng thẳng.", options: "A. self-disciplined (adj): kỷ luật tự giác; B. stressed out (adj): căng thẳng; C. self-aware (adj): tự nhận thức, hiểu rõ bản thân; D. well-balanced (adj): cân bằng điều độ.", reason: "Cụm từ then chốt 'recognize their emotions' (nhận biết rõ cảm xúc của chính mình) là biểu hiện trực tiếp cốt lõi của tính từ 'self-aware' (khả năng tự thấu hiểu nhận thức rõ tâm lý bản thân).", wrongReason: "self-disciplined nhấn mạnh hành động nề nếp; stressed out là đang bị căng thẳng; well-balanced là lối sống điều độ, không bổ trợ trực tiếp cho khả năng nhìn nhận cảm xúc." } },
+            { id: 24, question: "A positive _______ contributes to overall well-being.", options: [{text:"A. mood",isCorrect:true},{text:"B. independence",isCorrect:false},{text:"C. priority",isCorrect:false},{text:"D. due date",isCorrect:false}], explanation: { translation: "Một tâm trạng tích cực góp phần vào sức khỏe và sự hạnh phúc toàn diện.", options: "A. mood (n): tâm trạng, tinh thần; B. independence (n): sự độc lập; C. priority (n): sự ưu tiên; D. due date (n): ngày hạn chót.", reason: "Tính từ 'positive' (tích cực) thường bổ nghĩa lý tưởng nhất cho danh từ 'mood' để tạo thành cụm 'positive mood' (tâm trạng vui vẻ, lạc quan, tích cực), giúp nâng cao chất lượng cuộc sống thể trạng.", wrongReason: "positive không đi chung tạo nghĩa hợp lý với các danh từ mang tính công việc hay tính chất hành chính như priority hay due date." } },
+            { id: 25, question: "Set a _______ for completing school projects to avoid last-minute stress.", options: [{text:"A. distraction",isCorrect:false},{text:"B. due date",isCorrect:true},{text:"C. counsellor",isCorrect:false},{text:"D. assignment",isCorrect:false}], explanation: { translation: "Hãy đặt ra một ngày hạn chót để hoàn thành các dự án ở trường nhằm tránh sự căng thẳng vào phút chót.", options: "A. distraction (n): sự xao nhãng; B. due date (n): ngày hạn chót phải nộp; C. counsellor (n): người cố vấn; D. assignment (n): bài tập.", reason: "Để tránh việc nước đến chân mới nhảy gây căng thẳng (avoid last-minute stress), chúng ta cần thiết lập một ngày giới hạn cụ thể cuối cùng cần hoàn thành, thuật ngữ gọi là 'due date' (hoặc deadline).", wrongReason: "distraction gây hại; counsellor là con người; assignment là bản thân bài tập đó chứ không mang nghĩa mốc thời gian giới hạn." } },
+            { id: 26, question: "She draws some nice pictures of landscapes. The pictures are __________.", options: [{text:"A. her",isCorrect:false},{text:"B. hers",isCorrect:true},{text:"C. theirs",isCorrect:false},{text:"D. my",isCorrect:false}], explanation: { translation: "Cô ấy vẽ một vài bức tranh phong cảnh rất đẹp. Những bức tranh đó là của cô ấy.", options: "A. her: tính từ sở hữu (sau phải có danh từ); B. hers: đại từ sở hữu (thay thế cho her pictures); C. theirs: đại từ sở hữu của họ; D. my: tính từ sở hữu của tôi.", reason: "Vị trí trống đứng cuối câu sau động từ tobe 'are' và không có bất kỳ danh từ nào theo sau. Ta cần dùng một Đại từ sở hữu đại diện cho chủ ngữ 'She' ở câu trước. 'The pictures are hers' tương đương 'The pictures are her pictures'.", wrongReason: "her và my bắt buộc phải có danh từ đứng liền sau; theirs sai về mặt logic chủ ngữ 'She' ở vế trước." } },
+            { id: 27, question: "If they study hard in the class, they __________ good marks on tests.", options: [{text:"A. would get",isCorrect:false},{text:"B. gets",isCorrect:false},{text:"C. got",isCorrect:false},{text:"D. will get",isCorrect:true}], explanation: { translation: "Nếu họ học tập chăm chỉ ở trong lớp, họ sẽ đạt được điểm số tốt trong các bài kiểm tra.", options: "A. would get (dùng cho loại 2); B. gets (v-s); C. got (v2); D. will get (will + V - dùng cho loại 1).", reason: "Nhìn vào mệnh đề chứa If: 'If they study hard' (động từ study chia ở Hiện tại đơn với chủ ngữ số nhiều). Đây là dấu hiệu của Câu điều kiện loại 1 diễn tả sự việc có thể xảy ra. Mệnh đề chính có dạng 'will + V nguyên mẫu' -> 'will get'.", wrongReason: "would get dùng trong câu điều kiện loại 2 trái thực tế; gets và got sai quy tắc phối thì mệnh đề chính câu điều kiện loại 1." } },
+            { id: 28, question: "We often use Facebook messenger to discuss homework __________ classmates.", options: [{text:"A. to",isCorrect:false},{text:"B. at",isCorrect:false},{text:"C. with",isCorrect:true},{text:"D. on",isCorrect:false}], explanation: { translation: "Chúng tôi thường sử dụng Facebook messenger để thảo luận bài tập về nhà với các bạn cùng lớp.", options: "A. to: đến; B. at: tại; C. with: với; D. on: trên.", reason: "Cấu trúc động từ thông dụng: 'discuss something with somebody' có nghĩa là thảo luận, bàn bạc một vấn đề gì đó cùng với ai.", wrongReason: "Các giới từ to, at, on không đi với động từ discuss để tạo ra nét nghĩa cùng tương tác thảo luận với đối tượng người." } },
+            { id: 29, question: "The festival __________ place on the twelfth of February every year.", options: [{text:"A. takes",isCorrect:true},{text:"B. took",isCorrect:false},{text:"C. take",isCorrect:false},{text:"D. taking",isCorrect:false}], explanation: { translation: "Lễ hội diễn ra vào ngày mồng mười hai tháng Hai hàng năm.", options: "A. takes (v-s); B. took (quá khứ); C. take (nguyên mẫu); D. taking (v-ing).", reason: "Cụm động từ mang nghĩa diễn ra là 'take place'. Trạng từ 'every year' (mỗi năm) là dấu hiệu điển hình của thì Hiện tại đơn chỉ tần suất lặp lại. Chủ ngữ 'The festival' là số ít, nên động từ phải thêm đuôi -s -> 'takes'.", wrongReason: "took chỉ quá khứ đã qua; take nguyên mẫu sai hòa hợp chủ ngữ số ít; taking không thể làm động từ chính đơn độc." } },
+            { id: 30, question: "He asked which country I __________ the previous year.", options: [{text:"A. visit",isCorrect:false},{text:"B. visited",isCorrect:true},{text:"C. visits",isCorrect:false},{text:"D. will visit",isCorrect:false}], explanation: { translation: "Anh ấy đã hỏi tôi đã đến thăm quốc gia nào vào năm trước đó.", options: "A. visit (hiện tại); B. visited (quá khứ đơn); C. visits (hiện tại ngôi số ít); D. will visit (tương lai).", reason: "Đây là câu tường thuật gián tiếp dạng câu hỏi (He asked...). Trạng ngữ gốc ban đầu là 'last year' đã được lùi thành 'the previous year'. Động từ chính vì thế cũng phải áp dụng quy tắc lùi thì từ Hiện tại đơn về Quá khứ đơn -> 'visited'.", wrongReason: "visit, visits, will visit đều chưa được lùi thì về quá khứ theo đúng quy chuẩn ngữ pháp câu gián tiếp." } },
+            { id: 31, question: "_______ is a critical stage of development when teens transition from childhood to adulthood.", options: [{text:"A. Counsellor",isCorrect:false},{text:"B. Adolescence",isCorrect:true},{text:"C. Distraction",isCorrect:false},{text:"D. Priority",isCorrect:false}], explanation: { translation: "Tuổi vị thành niên là giai đoạn phát triển quan trọng khi thanh thiếu niên chuyển giao từ thời thơ ấu sang tuổi trưởng thành.", options: "A. Counsellor (n): người cố vấn; B. Adolescence (n): thời kỳ/tuổi vị thành niên; C. Distraction (n): sự xao nhãng; D. Priority (n): sự ưu tiên.", reason: "Dựa vào cụm định nghĩa định danh phía sau: 'a critical stage of development... transition from childhood to adulthood' (giai đoạn phát triển chuyển từ trẻ con sang người lớn). Đây chính là định nghĩa chính xác của danh từ 'Adolescence'.", wrongReason: "Counsellor là con người; distraction và priority là các khái niệm trừu tượng không chỉ giai đoạn lứa tuổi sinh học con người." } },
+            { id: 32, question: "Regular exercise is essential for maintaining _______ health and preventing obesity.", options: [{text:"A. physical",isCorrect:true},{text:"B. fattening",isCorrect:false},{text:"C. additional",isCorrect:false},{text:"D. stressed out",isCorrect:false}], explanation: { translation: "Tập thể dục thường xuyên là điều thiết yếu để duy trì sức khỏe thể chất và ngăn ngừa bệnh béo phì.", options: "A. physical (adj): thuộc thể chất, cơ thể; B. fattening (adj): gây béo; C. additional (adj): bổ sung; D. stressed out (adj): căng thẳng.", reason: "Việc luyện tập thể thao cơ bắp (exercise) kết hợp từ khóa 'preventing obesity' (ngăn béo phì) liên quan trực tiếp đến sức khỏe vóc dáng cơ địa bên ngoài, gọi là 'physical health' (sức khỏe thể chất).", wrongReason: "fattening health vô nghĩa; additional không rõ nghĩa; stressed out không đi kèm làm tính từ tích cực tốt cho việc duy trì sức khỏe." } },
+            { id: 33, question: "To _______ stress, consider talking to a school counselor or seeking professional help.", options: [{text:"A. delay",isCorrect:false},{text:"B. minimize",isCorrect:true},{text:"C. attract",isCorrect:false},{text:"D. accomplish",isCorrect:false}], explanation: { translation: "Để giảm thiểu căng thẳng, hãy cân nhắc việc trò chuyện với một cố vấn học đường hoặc tìm kiếm sự trợ giúp chuyên nghiệp.", options: "A. delay (v): trì hoãn; B. minimize (v): giảm thiểu, hạ thấp tối đa; C. attract (v): thu hút; D. accomplish (v): đạt được.", reason: "Mục đích tìm gặp chuyên gia cố vấn tâm lý là để làm giảm bớt, hạ thấp mức độ áp lực mệt mỏi gánh nặng xuống, từ thích hợp nhất là 'minimize' (giảm thiểu căng thẳng).", wrongReason: "delay chỉ là tạm hoãn, không giải quyết triệt để; attract stress là thu hút thêm căng thẳng (ngược nghĩa); accomplish stress (hoàn thành căng thẳng) hoàn toàn vô nghĩa." } },
+            { id: 34, question: "Setting a _______ for completing assignments helps manage time effectively.", options: [{text:"A. anxiety",isCorrect:false},{text:"B. mood",isCorrect:false},{text:"C. deadline",isCorrect:true},{text:"D. distraction",isCorrect:false}], explanation: { translation: "Đặt ra một hạn chót để hoàn thành các bài tập giúp quản lý thời gian một cách hiệu quả.", options: "A. anxiety (n): sự lo âu; B. mood (n): tâm trạng; C. deadline (n): hạn chót, thời hạn cuối cùng; D. distraction (n): sự xao nhãng.", reason: "Hành động thiết lập thời gian biểu giới hạn giúp tăng tính hiệu quả làm bài (manage time effectively) được gọi là đặt 'deadline' (hạn chót hoàn thành).", wrongReason: "anxiety, mood, distraction không có tính chất mốc thời gian hành chính để hỗ trợ quản lý công việc học tập." } },
+            { id: 35, question: "Avoid _______ foods like sugary snacks and opt for nutritious options instead.", options: [{text:"A. appropriate",isCorrect:false},{text:"B. additional",isCorrect:false},{text:"C. optimistic",isCorrect:false},{text:"D. fattening",isCorrect:true}], explanation: { translation: "Hãy tránh các thực phẩm gây béo như đồ ăn nhẹ chứa nhiều đường và thay thế bằng các lựa chọn giàu dinh dưỡng.", options: "A. appropriate (adj): thích hợp; B. additional (adj): bổ sung; C. optimistic (adj): lạc quan; D. fattening (adj): có tính chất gây béo, tăng cân nhanh.", reason: "Cụm danh từ 'fattening foods' dùng để chỉ các loại đồ ăn chứa nhiều calo rỗng, nhiều đường béo dễ gây tích mỡ tăng cân, hoàn toàn phù hợp với ví dụ 'sugary snacks' đứng sau.", wrongReason: "appropriate và optimistic mang nghĩa tích cực không cần phải tránh (Avoid); additional không làm nổi bật bản chất có hại của đồ ăn ngọt." } },
+            { id: 36, question: "If we don't book our tickets in advance, we _______ guarantee seats for the concert.", options: [{text:"A. shouldn't",isCorrect:false},{text:"B. mustn't",isCorrect:false},{text:"C. can't",isCorrect:true},{text:"D. might not",isCorrect:false}], explanation: { translation: "Nếu chúng ta không đặt vé trước, chúng ta không thể đảm bảo có chỗ ngồi cho buổi hòa nhạc.", options: "A. shouldn't: không nên; B. mustn't: cấm; C. can't: không thể; D. might not: có lẽ không.", reason: "Không đặt vé trước dẫn đến việc mất đi khả năng hay cơ hội chắc chắn giữ chỗ. Động từ diễn tả sự mất khả năng thực hiện hành vi này là 'can't' (không thể).", wrongReason: "shouldn't diễn tả lời khuyên; mustn't chỉ sự cấm đoán của luật lệ; might not thể hiện mức độ phỏng đoán quá nhẹ nhàng không khớp thực tế hết vé." } },
+            { id: 37, question: "If you want to have a productive meeting, you _______ carefully make a plan and set clear goals.", options: [{text:"A. can",isCorrect:false},{text:"B. might",isCorrect:false},{text:"C. must",isCorrect:true},{text:"D. may",isCorrect:false}], explanation: { translation: "Nếu bạn muốn có một cuộc họp hiệu quả, bạn bắt buộc phải lập kế hoạch cẩn thận và đặt ra mục tiêu rõ ràng.", options: "A. can: có thể; B. might: có lẽ; C. must: phải, bắt buộc; D. may: có thể.", reason: "Để một cuộc họp đạt năng suất (productive meeting) thì việc lên kế hoạch và lập mục tiêu là điều kiện tiên quyết mang tính chất bắt buộc quyết định, vì thế chọn 'must' để nhấn mạnh tính cần thiết tối cao.", wrongReason: "can, might, may chỉ mang tính chất lựa chọn khả năng lỏng lẻo, không thể hiện được tầm quan trọng cốt lõi của hành động lập kế hoạch." } },
+            { id: 38, question: "If the traffic is heavy, we _______ make it to the movie theater before the show starts.", options: [{text:"A. needn't",isCorrect:false},{text:"B. shouldn't",isCorrect:false},{text:"C. might not",isCorrect:true},{text:"D. mustn't",isCorrect:false}], explanation: { translation: "Nếu giao thông tắc nghẽn nghiêm trọng, chúng ta có lẽ không thể đến được rạp chiếu phim trước khi buổi biểu diễn bắt đầu.", options: "A. needn't: không cần; B. shouldn't: không nên; C. might not: có lẽ không (phỏng đoán khả năng); D. mustn't: cấm đoán.", reason: "Tắc đường là một điều kiện khách quan dẫn đến một dự đoán về một khả năng có thể không xảy ra ở tương lai. Từ khuyết thiếu chỉ một khả năng phủ định không chắc chắn là 'might not'.", wrongReason: "needn't và shouldn't sai logic ngữ nghĩa; mustn't mang tính chất luật cấm, không dùng cho việc dự đoán thời gian di chuyển đường phố." } },
+            { id: 39, question: "If you want to· sleep well at night, you _______ drink too much caffeine after 3 p.m.", options: [{text:"A. shouldn't",isCorrect:true},{text:"B. may not",isCorrect:false},{text:"C. can't",isCorrect:false},{text:"D. won't",isCorrect:false}], explanation: { translation: "Nếu bạn muốn ngủ ngon vào ban đêm, bạn không nên uống quá nhiều caffeine sau 3 giờ chiều.", options: "A. shouldn't: không nên; B. may not: có thể không; C. can't: không thể; D. won't: sẽ không.", reason: "Câu đưa ra một lời khuyên khoa học hữu ích cho sức khỏe đời sống hàng ngày của học sinh, do đó ta áp dụng động từ khuyết thiếu chỉ lời khuyên 'shouldn't'.", wrongReason: "may not và can't thiên về quy tắc hoặc khả năng thể chất vật lý; won't diễn tả tương lai đơn không mang tính chất khuyên bảo." } },
+            { id: 40, question: "If you don' t have a membership, you _______ access this exclusive club.", options: [{text:"A. may not",isCorrect:false},{text:"B. might not",isCorrect:false},{text:"C. shouldn't",isCorrect:false},{text:"D. can't",isCorrect:true}], explanation: { translation: "Nếu bạn không có thẻ thành viên, bạn không thể truy cập vào câu lạc bộ độc quyền này.", options: "A. may not: có thể không; B. might not: có lẽ không; C. shouldn't: không nên; D. can't: không thể.", reason: "Quy định nghiêm ngặt của câu lạc bộ: không có thẻ thành viên đồng nghĩa với việc hoàn toàn không có quyền hạn, không thể ('can't') bước vào trong.", wrongReason: "shouldn't chỉ là lời khuyên; may not và might not mang tính phỏng đoán, không thể hiện được tính bất khả kháng do thiếu thẻ ra vào." } },
+            { id: 41, question: "Don't let academic pressures leave you feeling _______.", options: [{text:"A. fattening",isCorrect:false},{text:"B. stressed out",isCorrect:true},{text:"C. happy",isCorrect:false},{text:"D. optimistic",isCorrect:false}], explanation: { translation: "Đừng để những áp lực học tập khiến bạn cảm thấy bị căng thẳng mệt mỏi.", options: "A. fattening (adj): gây béo; B. stressed out (adj): bị căng thẳng, áp lực quá tải; C. happy (adj): hạnh phúc; D. optimistic (adj): lạc quan.", reason: "Chủ từ 'academic pressures' (áp lực học hành thi cử) là tác nhân trực tiếp tiêu cực gây ra trạng thái tâm lý mệt mỏi, kiệt sức cho học sinh, thuật ngữ tương ứng là 'feeling stressed out'.", wrongReason: "fattening không liên quan tâm lý; happy và optimistic mang nghĩa tích cực, hoàn toàn trái ngược với hệ quả của áp lực." } },
+            { id: 42, question: "Stay _______ even during challenging times; a positive mindset is essential.", options: [{text:"A. frustrated",isCorrect:false},{text:"B. physical",isCorrect:false},{text:"C. optimistic",isCorrect:true},{text:"D. relaxed",isCorrect:false}], explanation: { translation: "Hãy luôn lạc quan ngay cả trong những thời điểm thử thách; một tư duy tích cực là điều thiết yếu.", options: "A. frustrated (adj): nản lòng, bực dọc; B. physical (adj): thể chất; C. optimistic (adj): lạc quan; D. relaxed (adj): thư giãn.", reason: "Cụm từ giải thích bổ trợ vế sau 'a positive mindset is essential' (tư duy suy nghĩ tích cực là rất quan trọng) chỉ ra trạng thái cần duy trì là sự lạc quan, tin tưởng vào điều tốt đẹp -> 'optimistic'.", wrongReason: "frustrated mang nghĩa tiêu cực bực bội; physical thuộc thể xác cơ thể; relaxed đơn thuần là thả lỏng, không nhấn mạnh bằng thái độ sống lạc quan." } },
+            { id: 43, question: "Avoid _______ like excessive screen time when studying.", options: [{text:"A. moods",isCorrect:false},{text:"B. priorities",isCorrect:false},{text:"C. distractions",isCorrect:true},{text:"D. due dates",isCorrect:false}], explanation: { translation: "Hãy tránh các tác nhân gây xao nhãng như việc dành quá nhiều thời gian nhìn màn hình điện thoại khi đang học.", options: "A. moods (n): tâm trạng; B. priorities (n): sự ưu tiên; C. distractions (n): những thứ gây xao nhãng, mất tập trung; D. due dates (n): hạn chót.", reason: "Việc lướt điện thoại, xem tivi trong giờ học (excessive screen time) được xếp vào nhóm các nhân tố làm học sinh mất tập trung học tập, từ vựng chuyên ngành gọi là 'distractions'.", wrongReason: "moods, priorities, due dates không mang bản chất là các yếu tố quấy nhiễu, làm gián đoạn sự tập trung khi học bài." } },
+            { id: 44, question: "Regular exercise has both physical and _______ health benefits.", options: [{text:"A. mental",isCorrect:true},{text:"B. embarrassed",isCorrect:false},{text:"C. optimistic",isCorrect:false},{text:"D. fattening",isCorrect:false}], explanation: { translation: "Tập thể dục thường xuyên đem lại cả lợi ích sức khỏe thể chất lẫn tinh thần.", options: "A. mental (adj): thuộc tinh thần; B. embarrassed (adj): xấu hổ; C. optimistic (adj): lạc quan; D. fattening (adj): gây béo.", reason: "Cặp từ đối ứng kinh điển luôn song hành khi bàn về sức khỏe toàn diện của con người là 'physical and mental health' (sức khỏe thể chất và tinh thần).", wrongReason: "embarrassed, optimistic, fattening khi đặt trước từ health tạo nên các cụm từ sai ngữ nghĩa hoặc sai cấu trúc diễn đạt khoa học." } },
+            { id: 45, question: "If it snows tomorrow, we _______ cancel our outdoor event.", options: [{text:"A. can",isCorrect:false},{text:"B. may",isCorrect:true},{text:"C. must",isCorrect:false},{text:"D. should",isCorrect:false}], explanation: { translation: "Nếu ngày mai trời có tuyết rơi, chúng ta có thể sẽ phải hủy bỏ sự kiện ngoài trời của mình.", options: "A. can: có thể (chỉ năng lực); B. may: có thể, có lẽ (chỉ khả năng khách quan); C. must: phải; D. should: nên.", reason: "Tuyết rơi là hiện tượng thời tiết ngẫu nhiên dẫn đến một khả năng hành động xảy ra ngoài ý muốn ở tương lai. Từ 'may' diễn tả một khả năng khách quan có xác suất xảy ra tùy thuộc điều kiện thời tiết.", wrongReason: "can diễn tả năng lực nội tại con người; must mang nghĩa bắt buộc cưỡng chế quá mức; should đưa ra lời khuyên không hợp lý cho tình huống này." } },
+            { id: 46, question: "Thanks to great planning and hard work, she was able to _________ her goals.", options: [{text:"A. achieve",isCorrect:true},{text:"B. advise",isCorrect:false},{text:"C. punish",isCorrect:false},{text:"D. connect",isCorrect:false}], explanation: { translation: "Nhờ vào việc lập kế hoạch tuyệt vời và sự làm việc chăm chỉ, cô ấy đã có thể đạt được những mục tiêu của mình.", options: "A. achieve (v): đạt được, gặt hái thành công; B. advise (v): khuyên bảo; C. punish (v): trừng phạt; D. connect (v): kết nối.", reason: "Đi theo cụm kết hợp từ vựng thường gặp mang ý nghĩa tích cực: 'achieve goals' có nghĩa là hoàn thành, gặt hái hoặc đạt được mục tiêu đề ra.", wrongReason: "advise, punish, connect không đi kèm với danh từ 'goals' để tạo nên ý nghĩa đạt được thành quả công việc." } },
+            { id: 47, question: "The _________ provides support and advice to students who are facing academic difficulties.", options: [{text:"A. ingredient",isCorrect:false},{text:"B. distraction",isCorrect:false},{text:"C. counsellor",isCorrect:true},{text:"D. omission",isCorrect:false}], explanation: { translation: "Người cố vấn học đường cung cấp sự hỗ trợ và lời khuyên cho các học sinh đang đối mặt với những khó khăn trong học tập.", options: "A. ingredient (n): thành phần nguyên liệu; B. distraction (n): sự xao nhãng; C. counsellor (n): người cố vấn, tư vấn viên; D. omission (n): sự bỏ sót.", reason: "Chủ ngữ thực hiện hành động nhân văn 'provides support and advice to students' (cung cấp hỗ trợ và lời khuyên cho học sinh) bắt buộc phải là một danh từ chỉ người có chuyên môn học đường -> 'counsellor'.", wrongReason: "ingredient chỉ đồ ăn; distraction chỉ sự mất tập trung; omission chỉ lỗi bỏ sót dữ liệu, đều là danh từ bất động vật." } },
+            { id: 48, question: "The therapist gave her some tips to reduce her _________ levels.", options: [{text:"A. appearance",isCorrect:false},{text:"B. anxiety",isCorrect:true},{text:"C. instruction",isCorrect:false},{text:"D. encouragement",isCorrect:false}], explanation: { translation: "Nhà trị liệu đã đưa cho cô ấy một vài mẹo để giảm bớt mức độ lo âu của mình.", options: "A. appearance (n): ngoại hình; B. anxiety (n): sự lo lắng, lo âu; C. instruction (n): sự hướng dẫn; D. encouragement (n): sự khuyến khích.", reason: "Nhà trị liệu tâm lý (therapist) đưa ra lời khuyên nhằm mục đích hạ thấp, thuyên giảm mức độ của một trạng thái tâm lý tiêu cực bất ổn, đó chính là 'anxiety levels' (mức độ lo âu, bồn chồn).", wrongReason: "appearance thuộc vẻ ngoài; instruction thuộc bài học; encouragement mang tính tích cực vui vẻ, không ai cần đi giảm bớt sự khuyến khích cả." } },
+            { id: 49, question: "To maintain a healthy lifestyle, it's important to have a _________ diet with a lot of vegetables and fruits.", options: [{text:"A. urgent",isCorrect:false},{text:"B. additional",isCorrect:false},{text:"C. well-balanced",isCorrect:true},{text:"D. mental",isCorrect:false}], explanation: { translation: "Để duy trì một lối sống lành mạnh, việc có một chế độ ăn uống cân bằng giàu rau củ và trái cây là rất quan trọng.", options: "A. urgent (adj): khẩn cấp; B. additional (adj): bổ sung; C. well-balanced (adj): cân bằng, đầy đủ dưỡng chất; D. mental (adj): tinh thần.", reason: "Cụm danh từ cố định cực kỳ phổ biến trong y học dinh dưỡng: 'a well-balanced diet' có nghĩa là một chế độ ăn uống cân bằng, khoa học, phân chia hợp lý các nhóm chất.", wrongReason: "urgent diet (ăn kiêng khẩn cấp) sai nghĩa; additional diet (ăn bổ sung) chưa đủ nghĩa; mental không dùng trực tiếp bổ nghĩa cho món ăn thực phẩm." } },
+            { id: 50, question: "Eating too much _________ food can make you gain weight fast.", options: [{text:"A. regular",isCorrect:false},{text:"B. fattening",isCorrect:true},{text:"C. optimistic",isCorrect:false},{text:"D. physical",isCorrect:false}], explanation: { translation: "Ăn quá nhiều thức ăn gây béo có thể khiến bạn tăng cân một cách nhanh chóng.", options: "A. regular (adj): thường xuyên; B. fattening (adj): có tính chất gây béo, tăng cân; C. optimistic (adj): lạc quan; D. physical (adj): thể chất.", reason: "Hệ quả 'gain weight fast' (tăng cân nhanh) xuất phát từ việc cơ thể nạp quá nhiều đồ ăn dầu mỡ, đồ ngọt, gọi chung là đồ ăn dễ gây béo, tính từ bổ nghĩa chuẩn xác là 'fattening food'.", wrongReason: "regular food là thức ăn bình thường; optimistic chỉ thái độ con người; physical thuộc về cơ bắp vật lý, không hợp nghĩa." } },
+            { id: 51, question: "They have built this house __________ 5 months.", options: [{text:"A. at",isCorrect:false},{text:"B. on",isCorrect:false},{text:"C. for",isCorrect:true},{text:"D. with",isCorrect:false}], explanation: { translation: "Họ đã xây dựng ngôi nhà này được khoảng 5 tháng rồi.", options: "A. at: tại; B. on: trên; C. for: trong vòng (khoảng thời gian); D. with: với.", reason: "Động từ câu chia ở thì Hiện tại hoàn thành 'have built'. Thành phần phía sau '5 months' là một khoảng thời gian cụ thể. Giới từ đi với khoảng thời gian trong hiện tại hoàn thành bắt buộc là 'for'.", wrongReason: "at và on dùng cho mốc thời gian cụ thể như giờ giấc hoặc thứ ngày; with không có chức năng đo đếm thời gian kéo dài." } },
+            { id: 52, question: "He was reading books yesterday morning when the bell __________.", options: [{text:"A. rings",isCorrect:false},{text:"B. rang",isCorrect:true},{text:"C. ringing",isCorrect:false},{text:"D. rung",isCorrect:false}], explanation: { translation: "Anh ấy đang đọc sách vào sáng hôm qua thì chuông cửa reo.", options: "A. rings (hiện tại); B. rang (quá khứ đơn của ring); C. ringing (v-ing); D. rung (v3).", reason: "Áp dụng cấu trúc phối thì quá khứ với liên từ 'when': Diễn tả một hành động đang xảy ra trong quá khứ (was reading) thì có một hành động khác đột ngột xen ngang vào. Hành động xen ngang phải chia ở thì Quá khứ đơn -> 'rang'.", wrongReason: "rings sai thì; ringing và rung không thể đứng độc lập làm động từ vị ngữ của chủ ngữ 'the bell'." } },
+            { id: 53, question: "She said she would buy some home-grown products in the open-air market __________.", options: [{text:"A. the following day",isCorrect:true},{text:"B. yesterday",isCorrect:false},{text:"C. tomorrow",isCorrect:false},{text:"D. the previous day",isCorrect:false}], explanation: { translation: "Cô ấy nói rằng cô ấy sẽ mua một số nông sản nhà trồng ở chợ ngoài trời vào ngày hôm sau.", options: "A. the following day: ngày hôm sau (tương lai trong quá khứ); B. yesterday: hôm qua; C. tomorrow: ngày mai; D. the previous day: ngày trước đó.", reason: "Dựa vào động từ tường thuật 'She said' và cấu trúc tương lai trong quá khứ 'would buy' (lùi từ will buy). Từ chỉ thời gian tương lai gốc là 'tomorrow' phải biến đổi tương ứng thành 'the following day' trong câu gián tiếp.", wrongReason: "yesterday và the previous day thuộc về quá khứ; tomorrow chưa được biến đổi lùi từ theo quy tắc câu gián tiếp gián định." } },
+            { id: 54, question: "Unless we have a laptop connected to the Internet, we __________ be able to make a video conference.", options: [{text:"A. do",isCorrect:false},{text:"B. will",isCorrect:false},{text:"C. won't",isCorrect:true},{text:"D. doesn't",isCorrect:false}], explanation: { translation: "Trừ khi chúng ta có một máy tính xách tay kết nối Internet, bằng không chúng ta sẽ không thể thực hiện một cuộc họp trực tuyến qua video.", options: "A. do: trợ động từ; B. will: sẽ; C. won't: sẽ không; D. doesn't: trợ động từ số ít.", reason: "Liên từ 'Unless' bằng nghĩa với 'If... not' (Nếu không... thì...). Mệnh đề điều kiện dùng Unless mang nghĩa khẳng định hình thức nhưng phủ định bản chất. Vế sau của câu điều kiện loại 1 phải mang nghĩa tiêu cực không thể làm được nếu thiếu máy tính -> 'won't be able to'.", wrongReason: "do và doesn't không đi chung tạo nghĩa tương lai kết hợp be able to; will khiến ý nghĩa câu bị ngược ngạo phi lý." } },
+            { id: 55, question: "We __________ the natural museum in the city next Sunday.", options: [{text:"A. visited",isCorrect:false},{text:"B. will visit",isCorrect:true},{text:"C. visit",isCorrect:false},{text:"D. visits",isCorrect:false}], explanation: { translation: "Chúng tôi sẽ đi thăm bảo tàng tự nhiên trong thành phố vào Chủ nhật tới.", options: "A. visited (quá khứ); B. will visit (tương lai đơn); C. visit (hiện tại đơn số nhiều); D. visits (hiện tại đơn số ít).", reason: "Dấu hiệu nhận biết thời gian rõ ràng: 'next Sunday' (Chủ nhật tới) chỉ một hành động diễn ra ở tương lai. Do đó động từ chính phải chia ở thì Tương lai đơn với công thức 'will + V nguyên mẫu' -> 'will visit'.", wrongReason: "visited chỉ quá khứ; visit và visits thuộc về hiện tại đơn không phù hợp với trạng ngữ chỉ thời gian tương lai." } },
+            { id: 56, question: "If you enroll in our intensive Spanish class, you _______ speak this language fluently after two months.", options: [{text:"A. can",isCorrect:true},{text:"B. should",isCorrect:false},{text:"C. must",isCorrect:false},{text:"D. need",isCorrect:false}], explanation: { translation: "Nếu bạn đăng ký vào lớp học tiếng Tây Ban Nha cấp tốc của chúng tôi, bạn có thể nói ngôn ngữ này lưu loát sau hai tháng.", options: "A. can: có thể (khả năng đạt được); B. should: nên; C. must: phải; D. need: cần.", reason: "Câu điều kiện loại 1 diễn tả một kết quả thực tế, một năng lực, kỹ năng mà người học sẽ đạt được sau khóa học. Động từ khuyết thiếu chỉ năng lực làm được việc gì là 'can'.", wrongReason: "should chỉ lời khuyên mang tính tùy chọn; must ép buộc quá mức; need cần phải có 'to' mới đi với động từ speak." } },
+            { id: 57, question: "If you want to pass the driving test, you _______ study harder and practise more regularly.", options: [{text:"A. may",isCorrect:false},{text:"B. will",isCorrect:false},{text:"C. must",isCorrect:true},{text:"D. might",isCorrect:false}], explanation: { translation: "Nếu bạn muốn vượt qua kỳ thi sát hạch lái xe, bạn bắt buộc phải học chăm chỉ hơn và thực hành thường xuyên hơn.", options: "A. may: có thể; B. will: sẽ; C. must: phải, bắt buộc; D. might: có lẽ.", reason: "Vượt qua kỳ thi lái xe đòi hỏi đáp ứng chuẩn điểm số kỹ thuật khắt khe, đây là điều bắt buộc bắt buộc phải làm (essential condition) nên ta sử dụng 'must' để thể hiện tính quyết định.", wrongReason: "may và might chỉ khả năng mơ hồ; will đơn thuần nói về tương lai, không nhấn mạnh được bổn phận cần thực hiện nghiêm túc để đạt kết quả." } },
+            { id: 58, question: "If it's a private event, you _______ attend without an invitation.", options: [{text:"A. shouldn't",isCorrect:false},{text:"B. mustn't",isCorrect:true},{text:"C. may not",isCorrect:false},{text:"D. needn't",isCorrect:false}], explanation: { translation: "Nếu đó là một sự kiện riêng tư, bạn tuyệt đối không được tham dự nếu không có thư mời.", options: "A. shouldn't: không nên; B. mustn't: không được phép, cấm (chỉ sự cấm đoán mạnh mẽ); C. may not: có thể không; D. needn't: không cần.", reason: "Sự kiện riêng tư (private event) mang quy định nghiêm ngặt cấm người ngoài tự ý xâm nhập vào. Động từ diễn tả lệnh cấm đoán tối cao của quy định pháp lý/quy tắc là 'mustn't'.", wrongReason: "shouldn't chỉ là lời khuyên nhẹ nhàng; needn't mang nghĩa không cần (nghĩa là thích thì vẫn vào được), đều sai lệch tính chất bảo mật của sự kiện tư nhân." } },
+            { id: 59, question: "If you want to stay healthy, you _______ eat too much junk food.", options: [{text:"A. shouldn't",isCorrect:true},{text:"B. needn't",isCorrect:false},{text:"C. can't",isCorrect:false},{text:"D. might not",isCorrect:false}], explanation: { translation: "Nếu bạn muốn giữ gìn sức khỏe, bạn không nên ăn quá nhiều đồ ăn vặt.", options: "A. shouldn't: không nên (đưa ra lời khuyên); B. needn't: không cần; C. can't: không thể; D. might not: có lẽ không.", reason: "Ăn đồ ăn vặt nhiều dầu mỡ gây hại sức khỏe là một lời cảnh báo, khuyên răn đời sống thông thường. Sử dụng 'shouldn't' để đưa ra lời khuyên y khoa thông dụng cho học sinh.", wrongReason: "needn't nghĩa là không cần thiết nhưng vẫn ăn được tùy ý; can't chỉ năng lực vật lý bị triệt tiêu không đúng vì thực tế ta vẫn ăn được; might not chỉ sự phỏng đoán." } },
+            { id: 60, question: "If they start saving money from now, they _______ afford to go to Ha Long Bay on holiday.", options: [{text:"A. should",isCorrect:false},{text:"B. need",isCorrect:false},{text:"C. can",isCorrect:true},{text:"D. must",isCorrect:false}], explanation: { translation: "Nếu họ bắt đầu tiết kiệm tiền từ bây giờ, họ có thể có đủ khả năng tài chính để đi du lịch Hạ Long vào kỳ nghỉ.", options: "A. should: nên; B. need: cần; C. can: có thể (có đủ năng lực tài chính); D. must: phải.", reason: "Hành động tiết kiệm tiền giúp tích lũy ngân sách dẫn tới kết quả thu về là có đủ khả năng tài chính để chi trả cho chuyến đi du lịch. Động từ đi với cụm khả năng chi trả 'afford' chuẩn nhất là 'can afford to do something'.", wrongReason: "should và must mang nghĩa khuyên bảo bắt buộc không khớp logic hệ quả tích lũy tiền tệ; need cần có 'to' đứng sau." } },
+            { id: 61, question: "Skipping breakfast is an example of a(n) _________ way to start your day.", options: [{text:"A. healthy",isCorrect:false},{text:"B. well-balanced",isCorrect:false},{text:"C. unhealthy",isCorrect:true},{text:"D. appropriate",isCorrect:false}], explanation: { translation: "Bỏ bữa sáng là một ví dụ về một cách không lành mạnh để bắt đầu ngày mới của bạn.", options: "A. healthy (adj): lành mạnh; B. well-balanced (adj): cân bằng; C. unhealthy (adj): không lành mạnh, hại sức khỏe; D. appropriate (adj): thích hợp.", reason: "Hành động 'Skipping breakfast' (bỏ bữa ăn sáng) gây thiếu hụt năng lượng, có hại lớn cho dạ dày và sức khỏe học sinh, vì vậy đây là thói quen xấu, không lành mạnh -> 'unhealthy'.", wrongReason: "healthy, well-balanced và appropriate mang nghĩa tích cực tốt đẹp, hoàn toàn trái ngược với bản chất khoa học của việc bỏ bữa sáng." } },
+            { id: 62, question: "Surrounding yourself with _________ people can help you stay motivated and achieve your goals.", options: [{text:"A. negative",isCorrect:false},{text:"B. anxious",isCorrect:false},{text:"C. positive",isCorrect:true},{text:"D. stressed out",isCorrect:false}], explanation: { translation: "Ở cạnh những người tích cực có thể giúp bạn giữ vững động lực và đạt được những mục tiêu của mình.", options: "A. negative (adj): tiêu cực; B. anxious (adj): lo âu; C. positive (adj): tích cực, lạc quan; D. stressed out (adj): căng thẳng.", reason: "Hệ quả tốt đẹp 'stay motivated and achieve your goals' (giữ động lực thúc đẩy và đạt mục tiêu) chỉ có được khi chúng ta tiếp xúc, kết bạn với những con người vui vẻ, có năng lượng tràn đầy lạc quan -> 'positive people'.", wrongReason: "negative, anxious, stressed out đều mang năng lượng xấu tiêu cực, chỉ khiến bản thân bị nhụt chí kéo lùi sự phát triển." } },
+            { id: 63, question: "It’s crucial to consider both physical and _________ health to achieve a well-balanced lifestyle.", options: [{text:"A. mental",isCorrect:true},{text:"B. urgent",isCorrect:false},{text:"C. appropriate",isCorrect:false},{text:"D. fattening",isCorrect:false}], explanation: { translation: "Việc cân nhắc cả sức khỏe thể chất lẫn tinh thần là điều tối quan trọng để đạt được một lối sống cân bằng.", options: "A. mental (adj): thuộc tinh thần; B. urgent (adj): khẩn cấp; C. appropriate (adj): thích hợp; D. fattening (adj): gây béo.", reason: "Mối quan hệ tương hỗ song hành tạo nên phong cách sống điều độ toàn diện luôn là sự kết hợp giữa thân thể cơ bắp (physical) và đầu óc tâm trí (mental). Cụm cố định: 'both physical and mental health'.", wrongReason: "urgent, appropriate, fattening không kết hợp với danh từ health để tạo nên thuật ngữ chỉ các khía cạnh nền tảng của y học sức khỏe con người." } },
+            { id: 64, question: "Many teens struggle to get enough sleep. A good _________ to this problem could be setting a regular sleep schedule and sticking to it.", options: [{text:"A. cause",isCorrect:false},{text:"B. obstacle",isCorrect:false},{text:"C. omission",isCorrect:false},{text:"D. solution",isCorrect:true}], explanation: { translation: "Nhiều thanh thiếu niên gặp khó khăn trong việc ngủ đủ giấc. Một giải pháp tốt cho vấn đề này có thể là lập một lịch trình ngủ đều đặn và tuân thủ nó.", options: "A. cause (n): nguyên nhân; B. obstacle (n): chướng ngại vật; C. omission (n): sự bỏ sót; D. solution (n): giải pháp, cách giải quyết.", reason: "Hành động được gợi ý ở câu sau 'setting a regular sleep schedule...' (thiết lập lịch trình ngủ điều độ) là một biện pháp hay, một cách xử lý triệt để giải quyết cho vấn đề thiếu ngủ (this problem). Do đó danh từ thích hợp là 'solution'.", wrongReason: "cause chỉ nguyên nhân sinh ra vấn đề; obstacle là vật cản làm tệ hơn; omission là lỗi bỏ sót dữ liệu, không mang ý nghĩa tháo gỡ khó khăn." } },
+            { id: 65, question: "Having a healthy lifestyle can make you feel more _________ about your future health and well-being.", options: [{text:"A. pessimistic",isCorrect:false},{text:"B. optimistic",isCorrect:true},{text:"C. stressed out",isCorrect:false},{text:"D. dependent",isCorrect:false}], explanation: { translation: "Có một lối sống lành mạnh có thể khiến bạn cảm thấy lạc quan hơn về sức khỏe và sự hạnh phúc trong tương lai của mình.", options: "A. pessimistic (adj): bi quan; B. optimistic (adj): lạc quan, yêu đời; C. stressed out (adj): căng thẳng; D. dependent (adj): phụ thuộc.", reason: "Lối sống khoa học khỏe mạnh (healthy lifestyle) mang lại tinh thần phấn chấn, niềm tin yêu cuộc sống nhìn về tương lai tươi sáng, nghĩa là giúp ta trở nên lạc quan -> 'optimistic'.", wrongReason: "pessimistic mang nghĩa buồn chán bi quan; stressed out là mệt mỏi căng thẳng; dependent là dựa dẫm, phụ thuộc vào người khác." } },
+            { id: 66, question: "If they want to participate in the competition, they _______ violate any of these regulations.", options: [{text:"A. shouldn't",isCorrect:false},{text:"B. mustn't",isCorrect:true},{text:"C. can't",isCorrect:false},{text:"D. might not",isCorrect:false}], explanation: { translation: "Nếu họ muốn tham gia vào cuộc thi, họ tuyệt đối không được vi phạm bất kỳ quy định nào trong số những quy định này.", options: "A. shouldn't: không nên; B. mustn't: không được phép, nghiêm cấm; C. can't: không thể; D. might not: có lẽ không.", reason: "Quy chế cuộc thi (regulations) là điều khoản pháp lý bắt buộc. Hành vi vi phạm (violate) sẽ dẫn đến việc bị loại ngay lập tức. Động từ diễn tả lệnh cấm ngặt nghèo bắt buộc là 'mustn't'.", wrongReason: "shouldn't mang tính khuyên bảo tùy tâm; can't chỉ năng lực vật lý; might not chỉ khả năng phỏng đoán mơ hồ, không phản ánh đúng chế tài kỷ luật cuộc thi." } },
+            { id: 67, question: "If you want to avoid traffic, you _______ leave early in the morning or consider another route.", options: [{text:"A. will",isCorrect:false},{text:"B. need",isCorrect:false},{text:"C. should",isCorrect:true},{text:"D. must",isCorrect:false}], explanation: { translation: "Nếu bạn muốn tránh tắc đường, bạn nên khởi hành sớm vào buổi sáng hoặc cân nhắc một lộ trình khác.", options: "A. will: sẽ; B. need: cần; C. should: nên (đưa ra một gợi ý, lời khuyên hữu ích); D. must: bắt buộc.", reason: "Việc tránh kẹt xe bằng cách đi sớm hay đi đường khác là một lời khuyên, một chỉ dẫn giải pháp mang tính gợi ý thông minh tiện lợi cho người đi đường, từ phù hợp nhất là 'should'.", wrongReason: "will không mang nghĩa khuyên bảo; need cần có to; must biến hành động di chuyển mang tính áp đặt cưỡng chế quá nghiêm trọng không cần thiết." } },
+            { id: 68, question: "If you want to succeed in their career, you _______ consider pursuing further education.", options: [{text:"A. will",isCorrect:false},{text:"B. might",isCorrect:false},{text:"C. can",isCorrect:false},{text:"D. must",isCorrect:true}], explanation: { translation: "Nếu bạn muốn thành công trong sự nghiệp của mình, bạn bắt buộc phải cân nhắc việc tiếp tục học cao hơn.", options: "A. will: sẽ; B. might: có lẽ; C. can: có thể; D. must: phải, bắt buộc.", reason: "Trong thị trường lao động cạnh tranh khắt khe, việc nâng cao học thức trình độ chuyên môn (pursuing further education) được xem là điều kiện tiên quyết, bắt buộc phải có để đạt tới đỉnh cao sự nghiệp thành công rực rỡ, chọn 'must' để thể hiện tính quyết định.", wrongReason: "will, might, can chỉ thể hiện khả năng thông thường, không lột tả được tính chất quan trọng sống còn của hành động nâng cao tri thức." } },
+            { id: 69, question: "If the team works effectively, they _______ complete the project ahead of schedule.", options: [{text:"A. can",isCorrect:true},{text:"B. must",isCorrect:false},{text:"C. can't",isCorrect:false},{text:"D. mustn't",isCorrect:false}], explanation: { translation: "Nếu đội ngũ làm việc một cách hiệu quả, họ có thể hoàn thành dự án trước thời hạn.", options: "A. can: có thể (chỉ khả năng, năng lực đạt được); B. must: phải; C. can't: không thể; D. mustn't: cấm đoán.", reason: "Làm việc có năng suất hiệu quả (works effectively) giúp đẩy nhanh tiến độ, mang lại khả năng hoàn thành sớm kế hoạch. Động từ diễn tả khả năng tích cực này là 'can'.", wrongReason: "must mang ý nghĩa bắt buộc ép buộc đội ngũ phải làm xong trước hạn là vô lý; can't và mustn't mang nghĩa phủ định, cấm đoán hoàn toàn ngược logic." } }
+        ];
+
+        // --- KHỞI TẠO VÀ HIỂN THỊ GIAO DIỆN BÀI THI TỰ ĐỘNG ---
+        const container = document.getElementById('quiz-container');
+        
+        // Tạo tiêu đề bài tập gốc
+        const secTitle = document.createElement('div');
+        secTitle.className = 'section-title';
+        secTitle.innerText = "Exercise 3: Mark the letter A, B, C, or D to indicate the correct answer to each of the following questions.";
+        container.appendChild(secTitle);
+
+        // Hàm xáo trộn đáp án ngẫu nhiên (Shuffle) cho từng câu hỏi độc lập mỗi lần tải trang
+        function shuffleOptions(options) {
+            let shuffled = [...options];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        quizData.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+            card.id = `card-${q.id}`;
+
+            // Thực hiện xáo trộn ngẫu nhiên thứ tự hiển thị của A, B, C, D
+            const shuffledOpts = shuffleOptions(q.options);
+            let optionsHtml = '';
+            shuffledOpts.forEach(opt => {
+                optionsHtml += `<button class="option-btn" data-correct="${opt.isCorrect}" onclick="selectAbcdOption(this, ${q.id})">${opt.text}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-text"><strong>Câu ${index + 1}:</strong> ${q.question}</div>
+                <div class="options-container">${optionsHtml}</div>
+                <div class="explanation-box" id="exp-${q.id}">
+                    <div class="exp-section"><div class="exp-title">🌟 Dịch nghĩa câu hỏi:</div><div class="exp-text">${q.explanation.translation}</div></div>
+                    <div class="exp-section"><div class="exp-title">💎 Phân tích từ vựng 4 đáp án:</div><div class="exp-text">${q.explanation.options}</div></div>
+                    <div class="exp-section"><div class="exp-title">✅ Tại sao đáp án này ĐÚNG?</div><div class="exp-text exp-highlight">${q.explanation.reason}</div></div>
+                    <div class="exp-section"><div class="exp-title">❌ Tại sao các đáp án khác SAI?</div><div class="exp-text">${q.explanation.wrongReason}</div></div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // --- XỬ LÝ SỰ KIỆN NHẤN ĐÁP ÁN ---
+        function selectAbcdOption(btn, qId) {
+            const card = document.getElementById(`card-${qId}`);
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            const buttons = card.querySelectorAll('.option-btn');
+            const isCorrect = btn.getAttribute('data-correct') === 'true';
+
+            buttons.forEach(b => {
+                b.classList.add('disabled');
+                if (b.getAttribute('data-correct') === 'true') {
+                    b.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                playSound('correct');
+                createConfetti();
+            } else {
+                btn.classList.add('wrong');
+                card.classList.add('shake');
+                playSound('wrong');
+                setTimeout(() => card.classList.remove('shake'), 400);
+            }
+
+            document.getElementById(`exp-${qId}`).classList.add('active');
+            card.setAttribute('data-answered', 'true');
+            card.setAttribute('data-score', isCorrect ? '1' : '0');
+        }
+
+        // --- CHẤM ĐIỂM TỔNG HỢP CUỐI BÀI ---
+        function gradeEntireQuiz() {
+            let totalQuestions = quizData.length;
+            let correctCount = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach(q => {
+                const card = document.getElementById(`card-${q.id}`);
+                const score = card.getAttribute('data-score');
+                if (score === '1') {
+                    correctCount++;
+                }
+                if (!card.getAttribute('data-answered')) {
+                    unansweredCount++;
+                }
+            });
+
+            const percentage = (correctCount / totalQuestions) * 100;
+            document.getElementById('score-text').innerText = `${correctCount}/${totalQuestions}`;
+
+            let comment = "";
+            if (percentage < 50) {
+                comment = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ❤️";
+            } else if (percentage <= 80) {
+                comment = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ✨";
+            } else {
+                comment = "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha! 🎉🏆";
+            }
+
+            if (unansweredCount > 0) {
+                comment += `\n(Lưu ý: Con còn ${unansweredCount} câu chưa làm thử đó nhé!)`;
+            }
+
+            document.getElementById('comment-text').innerText = comment;
+            document.getElementById('result-modal').style.display = 'flex';
+            
+            if (percentage >= 60) {
+                createConfetti();
+                setTimeout(createConfetti, 300);
+            }
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+
+        function CollegeRandom(min, max) { return Math.random() * (max - min) + min; }
+
+        // --- HIỆU ỨNG PHÁO GIẤY CONFETTI CANVAS ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettis = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                confettis.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: CollegeRandom(6, 12),
+                    d: Math.random() * canvas.height,
+                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    tilt: CollegeRandom(-10, 10),
+                    tiltAngleIncremental: CollegeRandom(-0.04, 0.04),
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettis.forEach((c, index) => {
+                c.tiltAngle += c.tiltAngleIncremental;
+                c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+                c.x += Math.sin(c.tiltAngle);
+                c.tilt = Math.sin(c.tiltAngle - index / 3) * 15;
+
+                if (c.y > canvas.height) {
+                    confettis.splice(index, 1);
+                    return;
+                }
+
+                ctx.beginPath();
+                ctx.lineWidth = c.r / 2;
+                ctx.strokeStyle = c.color;
+                ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+                ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+                ctx.stroke();
+            });
+            requestAnimationFrame(drawConfetti);
+        }
+        drawConfetti();
+    </script>
+</body>
+</html>
